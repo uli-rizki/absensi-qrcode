@@ -65,6 +65,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Matakuliah
                             </a>
+                            <a class="nav-link" href="tahun_ajaran_tampil.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Tahun Ajaran
+                            </a>
                             <div class="sb-sidenav-menu-heading">Laporan</div>
                             <a class="nav-link" href="index.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
