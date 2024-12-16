@@ -1,3 +1,28 @@
+<?php 
+// Memulai session
+session_start();
+
+if(isset($_SESSION['username'])) {
+    header("Location: admin/dashboard.php");
+}
+
+if($_POST) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    if ($username == "admin" && $password == "admin") {
+        // buat sesssion username
+        $_SESSION['username'] = $username;
+
+        // arahkan ke dashboard
+        header("Location: admin/dashboard.php");
+    } else {
+        echo "Password atau username salah";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -20,17 +45,17 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Absensi QRCode</h3></div>
                                     <div class="card-body">
-                                        <form>
+                                        <form action="" method="POST">
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+                                                <input class="form-control" id="inputEmail" type="text" name="username" placeholder="name@example.com" />
                                                 <label for="inputEmail">Email address</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                                                <input class="form-control" id="inputPassword" type="password" name="password" placeholder="Password" />
                                                 <label for="inputPassword">Password</label>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="btn btn-primary" href="admin/dashboard.php">Login</a>
+                                                <button type="submit" class="btn btn-primary">Login</button>
                                             </div>
                                         </form>
                                     </div>
