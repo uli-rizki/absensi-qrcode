@@ -1,23 +1,38 @@
-<?php 
-// Memulai session
+<?php
+require('../config/koneksi.php');
 session_start();
 
 if(isset($_SESSION['username'])) {
     header("Location: admin/dashboard.php");
 }
 
-if($_POST) {
+if ($_POST) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    if ($username == "admin" && $password == "admin") {
-        // buat sesssion username
-        $_SESSION['username'] = $username;
+    $que_user = "SELECT * FROM users WHERE email='$username'";
+    $hasil = $koneksi->query($que_user);
 
-        // arahkan ke dashboard
-        header("Location: admin/dashboard.php");
+    $user = mysqli_fetch_assoc($hasil);
+
+    if(is_array($user)) {
+        unset($_SESSION['pesan_error']);
+
+        $enkripsi_password = md5($password);
+        if($user['password'] == $enkripsi_password) {
+            // session login
+            $_SESSION['nama'] = $user['nama'];
+            $_SESSION['username'] = $user['email'];
+            $_SESSION['peran'] = $user['peran'];
+
+            if ($user['peran'] == "admin") {
+                header("Location: admin/dashboard.php");
+            }
+        }
     } else {
-        echo "Password atau username salah";
+        $_SESSION['pesan_error'] = "User Tidak ditemukan";
+
+        header("Location: login.php");
     }
 }
 
@@ -45,6 +60,14 @@ if($_POST) {
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Absensi QRCode</h3></div>
                                     <div class="card-body">
+                                        <?php if(isset($_SESSION['pesan_error'])) { 
+                                            echo " <div class='alert alert-danger'> ";
+                                            echo $_SESSION['pesan_error'];
+                                            echo "</div>";
+
+                                            // unset($_SESSION['pesan_error']);
+                                        }
+                                        ?>
                                         <form action="" method="POST">
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="inputEmail" type="text" name="username" placeholder="name@example.com" />
