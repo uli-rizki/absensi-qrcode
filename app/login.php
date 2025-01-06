@@ -1,26 +1,25 @@
 <?php 
-// Memulai session
+require("../config/koneksi.php");
 session_start();
-
-if(isset($_SESSION['username'])) {
-    header("Location: admin/dashboard.php");
-}
 
 if($_POST) {
     $username = $_POST['username'];
-    $password = $_POST['password'];
+    $password = md5($_POST['password']);
 
-    if ($username == "admin" && $password == "admin") {
-        // buat sesssion username
-        $_SESSION['username'] = $username;
+    $qry_user = "SELECT * FROM users WHERE email='$username'
+                AND password='$password'";
 
-        // arahkan ke dashboard
+    $hasil = $koneksi->query($qry_user);
+
+    $user = $hasil->fetch_assoc();
+
+    if(is_array($user)) {
         header("Location: admin/dashboard.php");
     } else {
-        echo "Password atau username salah";
+        $_SESSION['pesan_error'] = "Username atau password salah";
+        header("Location: login.php");
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +44,13 @@ if($_POST) {
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Absensi QRCode</h3></div>
                                     <div class="card-body">
+
+                                        <?php if(isset($_SESSION['pesan_error'])) { ?>
+                                            <div class="alert alert-danger">
+                                                <?php echo $_SESSION['pesan_error']; ?>
+                                            </div>
+                                        <?php } ?>
+
                                         <form action="" method="POST">
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="inputEmail" type="text" name="username" placeholder="name@example.com" />
