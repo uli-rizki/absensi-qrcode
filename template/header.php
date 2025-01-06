@@ -44,6 +44,7 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
+                            <?php if($_SESSION['peran'] == 'admin'){ ?>
                             <div class="sb-sidenav-menu-heading">Data Master</div>
                             <a class="nav-link" href="index.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
@@ -69,6 +70,7 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Tahun Ajaran
                             </a>
+                            <?php } ?>
                             <div class="sb-sidenav-menu-heading">Laporan</div>
                             <a class="nav-link" href="index.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
@@ -78,7 +80,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Masuk Sebagai:</div>
-                        Administrator
+                        <?php echo $_SESSION['peran']; ?>
                     </div>
                 </nav>
             </div>

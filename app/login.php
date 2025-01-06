@@ -27,7 +27,14 @@ if ($_POST) {
 
             if ($user['peran'] == "admin") {
                 header("Location: admin/dashboard.php");
+            } else if ($user['peran'] == "dosen") {
+                header("Location: dosen/dashboard.php");
+            } else {
+                header("Location: admin/dashboard.php");
             }
+        } else {
+            $_SESSION['pesan_error'] = "Password Salah";
+            header("Location: login.php");
         }
     } else {
         $_SESSION['pesan_error'] = "User Tidak ditemukan";
