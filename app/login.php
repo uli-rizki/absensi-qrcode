@@ -2,6 +2,10 @@
 require("../config/koneksi.php");
 session_start();
 
+if (isset($_SESSION['username'])) {
+    header("Location: admin/dashboard.php");
+}
+
 if($_POST) {
     $username = $_POST['username'];
     $password = md5($_POST['password']);
@@ -14,7 +18,19 @@ if($_POST) {
     $user = $hasil->fetch_assoc();
 
     if(is_array($user)) {
-        header("Location: admin/dashboard.php");
+        unset($_SESSION['pesan_error']);
+
+        $_SESSION['nama'] = $user['nama'];
+        $_SESSION['username'] = $user['email'];
+        $_SESSION['peran'] = $user['peran'];
+
+        if ( $user['peran'] == "admin") {
+            header("Location: admin/dashboard.php");
+        } else if ( $user['peran'] == "mahasiswa") {
+            header("Location: mahasiswa/dashboard.php");
+        } else {
+            header("Location: admin/dashboard.php");
+        }
     } else {
         $_SESSION['pesan_error'] = "Username atau password salah";
         header("Location: login.php");

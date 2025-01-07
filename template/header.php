@@ -78,7 +78,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Masuk Sebagai:</div>
-                        Administrator
+                        <?php echo $_SESSION['peran']; ?>
                     </div>
                 </nav>
             </div>
